@@ -1,16 +1,44 @@
-# terraform-aws-module-template
+![Module Structure](./static/s3.png)
+
+# [terraform-aws-arc-s3](https://github.com/sourcefuse/terraform-aws-arc-s3)
+
+<a href="https://github.com/sourcefuse/terraform-aws-arc-s3/releases/latest"><img src="https://img.shields.io/github/release/sourcefuse/terraform-aws-arc-s3.svg?style=for-the-badge" alt="Latest Release"/></a> <a href="https://github.com/sourcefuse/terraform-aws-arc-s3/commits"><img src="https://img.shields.io/github/last-commit/sourcefuse/terraform-aws-arc-s3.svg?style=for-the-badge" alt="Last Updated"/></a> ![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sourcefuse_terraform-aws-arc-s3&token=3c75a1b94d1b6ab3f1b98785e484d5ede197851e)](https://sonarcloud.io/summary/new_code?id=sourcefuse_terraform-aws-arc-s3)
+
+[![Known Vulnerabilities](https://github.com/sourcefuse/terraform-aws-arc-s3/actions/workflows/snyk.yaml/badge.svg)](https://github.com/sourcefuse/terraform-aws-arc-s3/actions/workflows/snyk.yaml)
 
 ## Overview
 
-SourceFuse AWS Reference Architecture (ARC) Terraform module for managing _________.
+SourceFuse AWS Reference Architecture (ARC) Terraform module for managing the s3 module.
+
+## Features
+ - Manages S3 buckets.
+ - Supports lifecycle rules.
+ - Configurable bucket policies and access controls.
+ - Supports CORS and website configurations.
+
+## Introduction
+
+SourceFuse's AWS Reference Architecture (ARC) Terraform module for managing S3 buckets centralizes and automates the deployment and management of S3 resources. This module helps you create and manage S3 buckets with options for lifecycle policies, access control lists (ACLs), and CORS configurations. It integrates with other AWS services, ensuring secure, scalable, and efficient storage solutions. The module supports various configurations, providing a robust solution for your storage needs across different environments.
 
 ## Usage
 
 To see a full example, check out the [main.tf](./example/main.tf) file in the example folder.  
 
 ```hcl
-module "this" {
-  source = "git::https://github.com/sourcefuse/terraform-aws-refarch-<module_name>"
+module "arc-s3" {
+  source = "../"
+  bucket_name = var.bucket_name
+  enable_notifications = var.enable_notifications
+  enabled = var.enabled
+  bucket_key_enabled = var.bucket_key_enabled
+  acl = var.acl
+  lifecycle_rule = local.lifecycle_rule
+  website_configuration = var.website_configuration
+  cors_configuration = var.cors_configuration
+  allowed_bucket_actions = var.allowed_bucket_actions
+  tags = module.tags.tags
 }
 ```
 
@@ -42,13 +70,7 @@ No inputs.
 
 No outputs.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-## Versioning  
-This project uses a `.version` file at the root of the repo which the pipeline reads from and does a git tag.  
-
-When you intend to commit to `main`, you will need to increment this version. Once the project is merged,
-the pipeline will kick off and tag the latest git commit.  
-
+ 
 ## Development
 
 ### Prerequisites

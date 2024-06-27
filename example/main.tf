@@ -7,11 +7,35 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = ">= 4.0, < 6.0"
     }
   }
 }
 
 provider "aws" {
   region = var.region
+}
+module "tags" {
+  source      = "sourcefuse/arc-tags/aws"
+  version     = "1.2.3"
+  environment = "poc"
+  project     = "arc"
+
+  extra_tags = {
+    RepoName = "terraform-aws-arc-s3"
+  }
+}
+
+module "arc-s3" {
+  source = "../"
+  bucket_name = var.bucket_name
+  enable_notifications = var.enable_notifications
+  enabled = var.enabled
+  bucket_key_enabled = var.bucket_key_enabled
+  acl = var.acl
+  lifecycle_rule = local.lifecycle_rule
+  website_configuration = var.website_configuration
+  cors_configuration = var.cors_configuration
+  allowed_bucket_actions = var.allowed_bucket_actions
+  tags = module.tags.tags
 }
