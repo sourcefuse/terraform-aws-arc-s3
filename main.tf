@@ -212,7 +212,7 @@ resource "time_sleep" "wait_for_aws_s3_bucket_settings" {
 
 # Event Notifications
 resource "aws_s3_bucket_notification" "bucket_notification" {
-  count = var.enable_notifications ? 1 : 0
+  count  = var.enable_notifications ? 1 : 0
   bucket = aws_s3_bucket.this.id
 
   dynamic "lambda_function" {

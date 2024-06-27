@@ -18,11 +18,6 @@ variable "cors_configuration" {
   description = "Specifies the allowed headers, methods, origins and exposed headers when using CORS on this bucket"
   default     = []
 }
-variable "allowed_bucket_actions" {
-  type        = list(string)
-  default     = ["s3:PutObject", "s3:PutObjectAcl", "s3:GetObject", "s3:DeleteObject", "s3:ListBucket", "s3:ListBucketMultipartUploads", "s3:GetBucketLocation", "s3:AbortMultipartUpload"]
-  description = "List of actions the user is permitted to perform on the S3 bucket"
-}
 variable "bucket_name" {
   description = "The name of the S3 bucket"
   type        = string
