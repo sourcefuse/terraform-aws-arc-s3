@@ -4,11 +4,11 @@ output "bucket_id" {
 }
 
 output "bucket_arn" {
-  value       = join("", aws_s3_bucket.this[*].arn)
+  value       = format("%s", [for arn in aws_s3_bucket.this[*].arn : arn]...)
   description = "Bucket ARN"
 }
 
 output "bucket_region" {
-  value       = join("", aws_s3_bucket.this[*].region)
+  value       = format("%s", [for region in aws_s3_bucket.this[*].region : region]...)
   description = "Bucket region"
 }
