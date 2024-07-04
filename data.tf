@@ -143,7 +143,6 @@ data "aws_iam_policy_document" "bucket_policy" {
 }
 
 data "aws_iam_policy_document" "aggregated_policy" {
-  count = var.enabled ? 1 : 0
 
   source_policy_documents   = [one(data.aws_iam_policy_document.bucket_policy[*].json)]
   override_policy_documents = var.source_policy_documents

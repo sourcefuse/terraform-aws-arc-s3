@@ -25,7 +25,7 @@ resource "aws_s3_bucket_versioning" "this" {
 }
 
 resource "aws_s3_bucket_logging" "default" {
-  for_each = toset(var.enabled && length(var.logging) > 0 ? ["enabled"] : [])
+  for_each = toset(length(var.logging) > 0 ? ["enabled"] : [])
 
   bucket = local.bucket_id
 

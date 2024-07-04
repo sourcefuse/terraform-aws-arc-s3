@@ -9,12 +9,6 @@ variable "acl" {
     EOT
 }
 
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = ""
-}
-
 variable "grants" {
   type = list(object({
     id          = string

@@ -29,12 +29,6 @@ variable "enable_notifications" {
   default     = false
 }
 
-variable "enabled" {
-  description = "Enable or disable the S3 bucket"
-  type        = bool
-  default     = true
-}
-
 variable "bucket_key_enabled" {
   description = "Enable or disable bucket key for the S3 bucket"
   type        = bool

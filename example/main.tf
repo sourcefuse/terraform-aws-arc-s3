@@ -30,7 +30,6 @@ module "arc-s3" {
   source                = "../"
   bucket_name           = var.bucket_name
   enable_notifications  = var.enable_notifications
-  enabled               = var.enabled
   bucket_key_enabled    = var.bucket_key_enabled
   acl                   = var.acl
   lifecycle_rule        = local.lifecycle_rule
