@@ -8,7 +8,7 @@ This document provides guidelines and instructions for users looking to implemen
 
 ### Module Overview
 
-The [terraform-aws-arc-s3](https://github.com/sourcefuse/terraform-aws-arc-s3) module simplifies the creation, management, and configuration of AWS S3 buckets. This module ensures that your S3 infrastructure is configured with best practices, including lifecycle policies, access controls, and optional website configurations.
+The [terraform-aws-arc-s3](https://github.com/sourcefuse/terraform-aws-arc-s3) module simplifies the creation, configuration, and management of S3 buckets by providing a set of predefined settings and options. The module supports advanced features such as bucket policies, access control lists (ACLs), lifecycle rules, and versioning. It also includes support for configuring Cross-Origin Resource Sharing (CORS) and cross-region replication for enhanced data availability and resilience. By leveraging this module, users can ensure consistent, secure, and efficient management of their S3 resources within an infrastructure-as-code (IaC) framework.
 
 ### Prerequisites
 
@@ -26,17 +26,13 @@ To use the module in your Terraform configuration, include the following source 
 
 ```hcl
 module "arc-s3" {
-  source = "../"
-  bucket_name = var.bucket_name
-  enable_notifications = var.enable_notifications
-  enabled = var.enabled
-  bucket_key_enabled = var.bucket_key_enabled
-  acl = var.acl
-  lifecycle_rule = local.lifecycle_rule
-  website_configuration = var.website_configuration
-  cors_configuration = var.cors_configuration
-  allowed_bucket_actions = var.allowed_bucket_actions
-  tags = module.tags.tags
+  source      = "sourcefuse/arc-s3/aws"
+  version     = "0.0.1"
+
+  name             = var.name
+  acl              = var.acl
+  lifecycle_config = local.lifecycle_config
+  tags             = module.tags.tags
 }
 ```
 
@@ -72,13 +68,12 @@ For a list of outputs, see the README [Outputs](https://github.com/sourcefuse/te
 
 ### Basic Usage
 
-For usage, see the [example](https://github.com/sourcefuse/terraform-aws-arc-s3/tree/main/example) folder.
+For usage, see the [examples/simple](https://github.com/sourcefuse/terraform-aws-arc-s3/tree/main/examples/simple) folder.
 
 This example will create:
 
 - AWS S3 buckets with the specified configuration.
-- Configurations for lifecycle rules, CORS, and website hosting.
-- Proper access control policies.
+- Configurations for lifecycle rules.
 
 ### Tips and Recommendations
 
@@ -86,6 +81,14 @@ This example will create:
 - Use bucket policies and ACLs to control access.
 - Enable versioning for better data protection.
 - Use tags to organize and manage resources effectively.
+
+## Cross region Replication
+For usage, see the [examples/replication](https://github.com/sourcefuse/terraform-aws-arc-s3/tree/main/examples/replication) folder.
+
+This example will create:
+
+- AWS S3 buckets with the specified configuration.
+- Cross region replication for S3 bucket
 
 ## Troubleshooting
 

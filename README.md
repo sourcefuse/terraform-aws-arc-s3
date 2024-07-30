@@ -13,33 +13,35 @@
 SourceFuse AWS Reference Architecture (ARC) Terraform module for managing the s3 module.
 
 ## Features
- - Manages S3 buckets.
- - Supports lifecycle rules.
- - Configurable bucket policies and access controls.
- - Supports CORS and website configurations.
+- Manages S3 Buckets: Handles the creation, deletion, and maintenance of Amazon S3 (Simple Storage Service) buckets, which are containers for storing data in the cloud.
+
+- Supports Lifecycle Rules: Enables the setup and management of lifecycle rules that automate the transition of data between different storage classes and the deletion of objects after a specified period.
+
+- Configurable Bucket Policies and Access Controls: Allows for the configuration of bucket policies and access control lists (ACLs) to define permissions and manage access to the data stored in S3 buckets, ensuring data security and compliance.
+
+- Supports CORS and Website Configurations: Provides support for Cross-Origin Resource Sharing (CORS) configurations to manage cross-origin requests to the bucket's resources, and allows for configuring the bucket to host static websites, including setting index and error documents.
+
+- Cross-Region Replication: Facilitates the automatic, asynchronous copying of objects across different AWS regions to enhance data availability, disaster recovery, and data compliance requirements.
 
 ## Introduction
 
-SourceFuse's AWS Reference Architecture (ARC) Terraform module for managing S3 buckets centralizes and automates the deployment and management of S3 resources. This module helps you create and manage S3 buckets with options for lifecycle policies, access control lists (ACLs), and CORS configurations. It integrates with other AWS services, ensuring secure, scalable, and efficient storage solutions. The module supports various configurations, providing a robust solution for your storage needs across different environments.
+SourceFuse's AWS Reference Architecture (ARC) Terraform module for managing Amazon S3 buckets using Terraform. It simplifies the creation, configuration, and management of S3 buckets by providing a set of predefined settings and options. The module supports advanced features such as bucket policies, access control lists (ACLs), lifecycle rules, and versioning. It also includes support for configuring Cross-Origin Resource Sharing (CORS) and cross-region replication for enhanced data availability and resilience. By leveraging this module, users can ensure consistent, secure, and efficient management of their S3 resources within an infrastructure-as-code (IaC) framework.
 
 ## Usage
 
 To see a full example, check out the [main.tf](./example/main.tf) file in the example folder.  
 
 ```hcl
-module "arc-s3" {
-  source = "../"
-  bucket_name = var.bucket_name
-  enable_notifications = var.enable_notifications
-  enabled = var.enabled
-  bucket_key_enabled = var.bucket_key_enabled
-  acl = var.acl
-  lifecycle_rule = local.lifecycle_rule
-  website_configuration = var.website_configuration
-  cors_configuration = var.cors_configuration
-  allowed_bucket_actions = var.allowed_bucket_actions
-  tags = module.tags.tags
+module "s3" {
+  source      = "sourcefuse/arc-s3/aws"
+  version     = "0.0.1"
+
+  name             = var.name
+  acl              = var.acl
+  lifecycle_config = local.lifecycle_config
+  tags             = module.tags.tags
 }
+
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

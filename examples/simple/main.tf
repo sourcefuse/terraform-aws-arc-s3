@@ -26,14 +26,10 @@ module "tags" {
   }
 }
 
-module "arc-s3" {
-  source                = "../"
-  bucket_name           = var.bucket_name
-  enable_notifications  = var.enable_notifications
-  bucket_key_enabled    = var.bucket_key_enabled
-  acl                   = var.acl
-  lifecycle_rule        = local.lifecycle_rule
-  website_configuration = var.website_configuration
-  cors_configuration    = var.cors_configuration
-  tags                  = module.tags.tags
+module "s3" {
+  source           = "../../"
+  name             = var.name
+  acl              = var.acl
+  lifecycle_config = local.lifecycle_config
+  tags             = module.tags.tags
 }
