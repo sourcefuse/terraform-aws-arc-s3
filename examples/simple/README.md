@@ -16,7 +16,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_arc-s3"></a> [arc-s3](#module\_arc-s3) | ../ | n/a |
+| <a name="module_s3"></a> [s3](#module\_s3) | ../../ | n/a |
 | <a name="module_tags"></a> [tags](#module\_tags) | sourcefuse/arc-tags/aws | 1.2.3 |
 
 ## Resources
@@ -27,13 +27,9 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_acl"></a> [acl](#input\_acl) | The ACL for the S3 bucket | `string` | `"private"` | no |
-| <a name="input_bucket_key_enabled"></a> [bucket\_key\_enabled](#input\_bucket\_key\_enabled) | Enable or disable bucket key for the S3 bucket | `bool` | `true` | no |
-| <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name of the S3 bucket | `string` | n/a | yes |
-| <a name="input_cors_configuration"></a> [cors\_configuration](#input\_cors\_configuration) | Specifies the allowed headers, methods, origins and exposed headers when using CORS on this bucket | <pre>list(object({<br>    id              = optional(string)<br>    allowed_headers = optional(list(string))<br>    allowed_methods = optional(list(string))<br>    allowed_origins = optional(list(string))<br>    expose_headers  = optional(list(string))<br>    max_age_seconds = optional(number)<br>  }))</pre> | `[]` | no |
-| <a name="input_enable_notifications"></a> [enable\_notifications](#input\_enable\_notifications) | Enable or disable notifications for the S3 bucket | `bool` | `false` | no |
+| <a name="input_acl"></a> [acl](#input\_acl) | ACL value | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Bucket Name | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | AWS region | `string` | `"us-east-1"` | no |
-| <a name="input_website_configuration"></a> [website\_configuration](#input\_website\_configuration) | The website configuration for the S3 bucket | `list(any)` | `[]` | no |
 
 ## Outputs
 

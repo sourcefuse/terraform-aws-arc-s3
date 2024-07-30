@@ -1,9 +1,3 @@
-variable "create_bucket" {
-  type        = bool
-  description = "(optional) Whether to create bucket"
-  default     = true
-}
-
 variable "name" {
   type        = string
   description = "Bucket name. If provided, the bucket will be created with this name instead of generating the name from the context"
@@ -49,7 +43,7 @@ variable "public_access_config" {
     restrict_public_buckets = true
   }
   description = <<-EOT
-  (Optional) 
+  (Optional)
   block_public_acls - Whether Amazon S3 should block public ACLs for this bucket. Defaults to false. Enabling this setting does not affect existing policies or ACLs. When set to true causes the following behavior:
     PUT Bucket acl and PUT Object acl calls will fail if the specified ACL allows public access.
     PUT Object calls will fail if the request includes an object ACL.
