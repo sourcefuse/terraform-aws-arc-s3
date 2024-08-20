@@ -18,6 +18,8 @@ module "bucket" {
   event_notification_details         = var.event_notification_details
   lifecycle_config                   = var.lifecycle_config
   transfer_acceleration_enabled      = var.transfer_acceleration_enabled
+  create_s3_directory_bucket         = var.create_s3_directory_bucket
+  availability_zone_id               = var.availability_zone_id
   tags                               = var.tags
 }
 

@@ -267,3 +267,14 @@ variable "replication_config" {
   }
   description = "Replication configuration for S3 bucket"
 }
+variable "create_s3_directory_bucket" {
+  description = "Control the creation of the S3 directory bucket. Set to true to create the bucket, false to skip."
+  type        = bool
+  default     = false
+}
+
+variable "availability_zone_id" {
+  description = "The ID of the availability zone."
+  type        = string
+  default     = ""
+}
