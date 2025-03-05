@@ -172,46 +172,50 @@ variable "lifecycle_config" {
     expected_bucket_owner = optional(string, null)
 
     rules = list(object({
-      id = string
-
-      expiration = optional(object({
-        date                         = optional(string, null)
-        days                         = optional(string, null)
-        expired_object_delete_marker = optional(bool, false)
-      }), null)
-      transition = optional(object({
-        date          = string
-        days          = number
-        storage_class = string
-      }), null)
-      noncurrent_version_expiration = optional(object({
-        newer_noncurrent_versions = number
-        noncurrent_days           = number
-      }), null)
-      noncurrent_version_transition = optional(object({
-        newer_noncurrent_versions = number
-        noncurrent_days           = number
-        storage_class             = string
-      }), null)
+      id     = string
+      status = string
 
       filter = optional(object({
-        object_size_greater_than = string
-        object_size_less_than    = string
-        prefix                   = string
-        tags                     = map(string)
+        object_size_greater_than = optional(number, null)
+        object_size_less_than    = optional(number, null)
+        prefix                   = optional(string, null)
+        tags                     = optional(map(string), {})
       }), null)
 
+      transitions = optional(list(object({
+        storage_class = optional(string, "GLACIER")
 
+        # Ensure only one of 'days' or 'date' is specified
+        date = optional(string, null)
+        days = optional(number, 30)
+
+      })), [])
+
+      expiration = optional(object({
+        expired_object_delete_marker = optional(bool, false)
+        days                         = optional(number, 365)
+        date                         = optional(string, null)
+
+      }), null)
+
+      noncurrent_version_transitions = optional(list(object({
+        newer_noncurrent_versions = optional(number, 1)
+        noncurrent_days           = optional(number, 30)
+        storage_class             = string
+      })), [])
+
+      noncurrent_version_expiration = optional(object({
+        newer_noncurrent_versions = optional(number, 1)
+        noncurrent_days           = optional(number, 90)
+      }), null)
     }))
-
   })
-
-  description = "(optional) S3 Lifecycle configuration"
   default = {
     enabled = false
     rules   = []
   }
 }
+
 
 variable "tags" {
   description = "Tags to assign the resources."

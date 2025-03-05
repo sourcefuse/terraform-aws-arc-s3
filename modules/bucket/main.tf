@@ -142,19 +142,15 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "this" {
-  count = var.lifecycle_config.enabled ? 1 : 0
-
+  count                 = var.lifecycle_config.enabled ? 1 : 0
   bucket                = aws_s3_bucket.this.id
   expected_bucket_owner = var.lifecycle_config.expected_bucket_owner
 
   dynamic "rule" {
     for_each = var.lifecycle_config.rules
-
     content {
       id     = rule.value.id
-      status = "Enabled"
-
-      // Refer Terrform doc : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration#filter
+      status = rule.value.status
       #  NOTE:
       # The filter configuration block must either be specified as the empty configuration block (filter {}) or with exactly one of prefix, tag, and, object_size_greater_than or object_size_less_than specified.
       dynamic "filter" {
@@ -175,48 +171,45 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
       }
 
       dynamic "transition" {
-        for_each = rule.value.transition == null ? [] : [rule.value.transition]
-
+        for_each = lookup(rule.value, "transitions", [])
         content {
-          date          = transition.value.date
-          days          = transition.value.days
           storage_class = transition.value.storage_class
+
+          # Ensure only one of 'days' or 'date' is specified
+          days = lookup(transition.value, "days", null)
+          date = lookup(transition.value, "date", null)
         }
       }
 
       dynamic "expiration" {
-        for_each = rule.value.expiration == null ? [] : [rule.value.expiration]
-
+        for_each = rule.value.expiration != null ? [rule.value.expiration] : []
         content {
-          date                         = expiration.value.date
-          days                         = expiration.value.days
-          expired_object_delete_marker = expiration.value.expired_object_delete_marker
-        }
-      }
-
-      dynamic "noncurrent_version_expiration" {
-        for_each = rule.value.noncurrent_version_expiration == null ? [] : [rule.value.noncurrent_version_expiration]
-
-        content {
-          newer_noncurrent_versions = noncurrent_version_expiration.value.newer_noncurrent_versions
-          noncurrent_days           = noncurrent_version_expiration.value.noncurrent_days
+          expired_object_delete_marker = lookup(expiration.value, "expired_object_delete_marker", null)
+          days                         = lookup(expiration.value, "days", null)
+          date                         = lookup(expiration.value, "date", null)
         }
       }
 
       dynamic "noncurrent_version_transition" {
-        for_each = rule.value.noncurrent_version_transition == null ? [] : [rule.value.noncurrent_version_transition]
-
+        for_each = lookup(rule.value, "noncurrent_version_transitions", [])
         content {
           newer_noncurrent_versions = noncurrent_version_transition.value.newer_noncurrent_versions
           noncurrent_days           = noncurrent_version_transition.value.noncurrent_days
           storage_class             = noncurrent_version_transition.value.storage_class
         }
       }
+
+      dynamic "noncurrent_version_expiration" {
+        for_each = rule.value.noncurrent_version_expiration != null ? [rule.value.noncurrent_version_expiration] : []
+        content {
+          newer_noncurrent_versions = noncurrent_version_expiration.value.newer_noncurrent_versions
+          noncurrent_days           = noncurrent_version_expiration.value.noncurrent_days
+        }
+      }
     }
   }
-
-  depends_on = [aws_s3_bucket_versioning.this]
 }
+
 
 /// Directory Bucket
 // https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_directory_bucket
