@@ -185,6 +185,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
         for_each = rule.value.expiration != null ? [rule.value.expiration] : []
         content {
           expired_object_delete_marker = lookup(expiration.value, "expired_object_delete_marker", null)
+
+          # Ensure only one of 'days' or 'date' is specified
           days                         = lookup(expiration.value, "days", null)
           date                         = lookup(expiration.value, "date", null)
         }

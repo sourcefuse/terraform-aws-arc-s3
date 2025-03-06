@@ -187,6 +187,8 @@ variable "lifecycle_config" {
 
       expiration = optional(object({
         expired_object_delete_marker = optional(bool, false)
+
+        # Ensure only one of 'days' or 'date' is specified
         days                         = optional(number, 365)
         date                         = optional(string, null)
 
