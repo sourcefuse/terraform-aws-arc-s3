@@ -184,11 +184,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
       dynamic "expiration" {
         for_each = rule.value.expiration != null ? [rule.value.expiration] : []
         content {
+          # Ensure only one of 'days' or 'expired_object_delete_marker' is specified
           expired_object_delete_marker = lookup(expiration.value, "expired_object_delete_marker", null)
-
-          # Ensure only one of 'days' or 'date' is specified
           days                         = lookup(expiration.value, "days", null)
-          date                         = lookup(expiration.value, "date", null)
         }
       }
 
@@ -206,6 +204,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
         content {
           newer_noncurrent_versions = noncurrent_version_expiration.value.newer_noncurrent_versions
           noncurrent_days           = noncurrent_version_expiration.value.noncurrent_days
+        }
+      }
+      dynamic "abort_incomplete_multipart_upload" {
+        for_each = rule.value.abort_incomplete_multipart_upload != null ? [rule.value.abort_incomplete_multipart_upload] : []
+        content {
+          days_after_initiation = abort_incomplete_multipart_upload.value.days_after_initiation
         }
       }
     }

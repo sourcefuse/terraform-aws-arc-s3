@@ -187,28 +187,30 @@ variable "lifecycle_config" {
 
         # Ensure only one of 'days' or 'date' is specified
         date = optional(string, null)
-        days = optional(number, 30)
+        days = optional(number, null)
 
       })), [])
 
       expiration = optional(object({
-        expired_object_delete_marker = optional(bool, false)
 
-        # Ensure only one of 'days' or 'date' is specified
-        days                         = optional(number, 365)
-        date                         = optional(string, null)
-
+        # Ensure only one of 'days' or 'expired_object_delete_marker' is specified
+        expired_object_delete_marker = optional(bool, null)
+        days                         = optional(number, null)
       }), null)
 
       noncurrent_version_transitions = optional(list(object({
-        newer_noncurrent_versions = optional(number, 1)
-        noncurrent_days           = optional(number, 30)
+        newer_noncurrent_versions = optional(number, null)
+        noncurrent_days           = optional(number, null)
         storage_class             = string
       })), [])
 
       noncurrent_version_expiration = optional(object({
-        newer_noncurrent_versions = optional(number, 1)
-        noncurrent_days           = optional(number, 90)
+        newer_noncurrent_versions = optional(number, null)
+        noncurrent_days           = optional(number, null)
+      }), null)
+
+      abort_incomplete_multipart_upload = optional(object({
+        days_after_initiation = optional(number, null)
       }), null)
     }))
   })
