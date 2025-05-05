@@ -2,6 +2,8 @@ package test
 
 import (
 	"io/ioutil"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"testing"
@@ -10,35 +12,53 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAllTerraformOutputsNotEmpty(t *testing.T) {
+func TestAllExampleModulesOutputsNotEmpty(t *testing.T) {
 	t.Parallel()
 
-	tfDir := "../examples"
-	tfOutputFile := tfDir + "/output.tf"
+	rootDir := "../examples"
 
-	// Step 1: Parse output.tf for output variable names
-	content, err := ioutil.ReadFile(tfOutputFile)
+	subDirs, err := os.ReadDir(rootDir)
 	if err != nil {
-		t.Fatalf("Failed to read %s: %v", tfOutputFile, err)
+		t.Fatalf("Failed to read examples directory: %v", err)
 	}
 
-	outputNames := extractOutputNames(string(content))
+	for _, entry := range subDirs {
+		if !entry.IsDir() {
+			continue
+		}
 
-	// Step 2: Setup Terraform options
-	terraformOptions := &terraform.Options{
-		TerraformDir: tfDir,
-	}
+		examplePath := filepath.Join(rootDir, entry.Name())
+		tfOutputFile := filepath.Join(examplePath, "output.tf")
 
-	// Step 3: Iterate through each output and assert it's not empty
-	for _, name := range outputNames {
-		t.Run(name, func(t *testing.T) {
-			val := terraform.Output(t, terraformOptions, name)
-			assert.NotEmpty(t, val, "Output '%s' should not be empty", name)
+		content, err := ioutil.ReadFile(tfOutputFile)
+		if err != nil {
+			t.Logf("Skipping %s: no output.tf found (%v)", examplePath, err)
+			continue
+		}
+
+		outputNames := extractOutputNames(string(content))
+
+		t.Run(entry.Name(), func(t *testing.T) {
+			t.Parallel()
+
+			terraformOptions := &terraform.Options{
+				TerraformDir: examplePath,
+			}
+
+			// Init & Apply
+			defer terraform.Destroy(t, terraformOptions)
+			terraform.InitAndApply(t, terraformOptions)
+
+			// Validate outputs
+			for _, name := range outputNames {
+				val := terraform.Output(t, terraformOptions, name)
+				assert.NotEmpty(t, val, "Output '%s' in %s should not be empty", name, examplePath)
+			}
 		})
 	}
 }
 
-// Helper to extract output names using regex
+// Extracts output variable names using regex
 func extractOutputNames(tfContent string) []string {
 	re := regexp.MustCompile(`(?m)^output\s+"([^"]+)"`)
 	matches := re.FindAllStringSubmatch(tfContent, -1)
