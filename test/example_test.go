@@ -28,11 +28,11 @@ func TestAllExampleModulesOutputsNotEmpty(t *testing.T) {
 		}
 
 		examplePath := filepath.Join(rootDir, entry.Name())
-		tfOutputFile := filepath.Join(examplePath, "output.tf")
+		tfOutputFile := filepath.Join(examplePath, "outputs.tf")
 
 		content, err := ioutil.ReadFile(tfOutputFile)
 		if err != nil {
-			t.Logf("Skipping %s: no output.tf found (%v)", examplePath, err)
+			t.Logf("Skipping %s: no outputs.tf found (%v)", examplePath, err)
 			continue
 		}
 
