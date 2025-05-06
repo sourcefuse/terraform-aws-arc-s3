@@ -30,6 +30,6 @@ module "s3" {
   source           = "../../"
   name             = var.name
   acl              = var.acl
-  lifecycle_config = local.lifecycle_config
+  # lifecycle_config = local.lifecycle_config
   tags             = module.tags.tags
 }

@@ -13,48 +13,50 @@ import (
 )
 
 func TestAllExampleModulesOutputsNotEmpty(t *testing.T) {
-	t.Parallel()
+	// Remove this line to avoid parallel execution of the main test
+	// t.Parallel()
 
 	rootDir := "../examples"
 
 	subDirs, err := os.ReadDir(rootDir)
 	if err != nil {
-		t.Fatalf("Failed to read examples directory: %v", err)
+			t.Fatalf("Failed to read examples directory: %v", err)
 	}
 
 	for _, entry := range subDirs {
-		if !entry.IsDir() {
-			continue
-		}
-
-		examplePath := filepath.Join(rootDir, entry.Name())
-		tfOutputFile := filepath.Join(examplePath, "outputs.tf")
-
-		content, err := ioutil.ReadFile(tfOutputFile)
-		if err != nil {
-			t.Logf("Skipping %s: no outputs.tf found (%v)", examplePath, err)
-			continue
-		}
-
-		outputNames := extractOutputNames(string(content))
-
-		t.Run(entry.Name(), func(t *testing.T) {
-			t.Parallel()
-
-			terraformOptions := &terraform.Options{
-				TerraformDir: examplePath,
+			if !entry.IsDir() {
+					continue
 			}
 
-			// Init & Apply
-			defer terraform.Destroy(t, terraformOptions)
-			terraform.InitAndApply(t, terraformOptions)
+			examplePath := filepath.Join(rootDir, entry.Name())
+			tfOutputFile := filepath.Join(examplePath, "outputs.tf")
 
-			// Validate outputs
-			for _, name := range outputNames {
-				val := terraform.Output(t, terraformOptions, name)
-				assert.NotEmpty(t, val, "Output '%s' in %s should not be empty", name, examplePath)
+			content, err := ioutil.ReadFile(tfOutputFile)
+			if err != nil {
+					t.Logf("Skipping %s: no outputs.tf found (%v)", examplePath, err)
+					continue
 			}
-		})
+
+			outputNames := extractOutputNames(string(content))
+
+			// This subtest will now run sequentially
+			t.Run(entry.Name(), func(t *testing.T) {
+					// Do NOT call t.Parallel() here
+
+					terraformOptions := &terraform.Options{
+							TerraformDir: examplePath,
+					}
+
+					// Init & Apply
+					defer terraform.Destroy(t, terraformOptions)
+					terraform.InitAndApply(t, terraformOptions)
+
+					// Validate outputs
+					for _, name := range outputNames {
+							val := terraform.Output(t, terraformOptions, name)
+							assert.NotEmpty(t, val, "Output '%s' in %s should not be empty", name, examplePath)
+					}
+			})
 	}
 }
 
@@ -65,9 +67,9 @@ func extractOutputNames(tfContent string) []string {
 
 	var outputNames []string
 	for _, match := range matches {
-		if len(match) > 1 {
-			outputNames = append(outputNames, strings.TrimSpace(match[1]))
-		}
+			if len(match) > 1 {
+					outputNames = append(outputNames, strings.TrimSpace(match[1]))
+			}
 	}
 	return outputNames
 }
