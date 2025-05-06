@@ -33,6 +33,11 @@ jobs:
         sudo mv tofu /usr/local/bin/
         tofu version
 
+    - name: Initialize Go module
+      run: |
+        go mod init example.com/test  # Replace with your module name if needed
+        go mod tidy  # Ensure dependencies are correctly downloaded
+
     - name: Run Go tests
       run: |
         ls    
