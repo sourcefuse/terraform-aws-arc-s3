@@ -1,4 +1,4 @@
-name: Go Test with OpenTofu
+name: Terraform Terratest with Go
 
 on:
   push:
@@ -8,13 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v3
+
+    - name: Configure AWS credentials via OIDC
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::884360309640:role/arc-iac-oidc-github-role
+        aws-region: us-east-1
 
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version: '1.22'  # Match your local version
+        go-version: '1.22'
 
     - name: Cache Go modules
       uses: actions/cache@v3
