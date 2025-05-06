@@ -29,9 +29,12 @@ jobs:
     - name: Install OpenTofu
       run: |
         curl -LO https://github.com/opentofu/opentofu/releases/download/v1.6.0/tofu_1.6.0_linux_amd64.zip
-        unzip tofu_1.6.0_linux_amd64.zip
+        unzip -o tofu_1.6.0_linux_amd64.zip
         sudo mv tofu /usr/local/bin/
         tofu version
 
     - name: Run Go tests
-      run: go test -v ./test
+      run: |
+        ls    
+        pwd
+        go test -v ./test
