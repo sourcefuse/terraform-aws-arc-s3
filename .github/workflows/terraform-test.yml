@@ -3,7 +3,7 @@ name: Terraform Terratest with Go
 on:
   push:
     branches:
-      - feature/update-examples
+      - feature/terraform-test
 
 permissions:
   id-token: write
