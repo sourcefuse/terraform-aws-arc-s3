@@ -3,8 +3,13 @@ name: Terraform Terratest with Go
 on:
   push:
     branches: feature/terraform-test
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
-  test:
+  terratest:
     runs-on: ubuntu-latest
 
     steps:
