@@ -7,14 +7,14 @@ variable "region" {
   description = "AWS region"
 }
 
-# variable "name" {
-#   type        = string
-#   description = "Bucket Name"
-#   default     = "arc-unique-randome-bucket-05052025"
-# }
+variable "name" {
+  type        = string
+  description = "Bucket Name"
+  default     = "arc-bucket"
+}
 
 variable "acl" {
   type        = string
   description = "ACL value"
-  default     =  "private"
+  default     = "private"
 }

@@ -33,9 +33,9 @@ resource "random_pet" "bucket_suffix" {
 }
 
 module "s3" {
-  source           = "../../"
-  name             = "my-app-${random_pet.bucket_suffix.id}"
-  acl              = var.acl
+  source = "../../"
+  name   = "${var.name}-${random_pet.bucket_suffix.id}"
+  acl    = var.acl
   # lifecycle_config = local.lifecycle_config
-  tags             = module.tags.tags
+  tags = module.tags.tags
 }

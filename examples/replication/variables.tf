@@ -7,11 +7,11 @@ variable "region" {
   description = "AWS region"
 }
 
-# variable "src_bucket_name" {
-#   type        = string
-#   description = "Source Bucket Name"
-#   default     = "src-randome-bucket-05052025"
-# }
+variable "src_bucket_name" {
+  type        = string
+  description = "Source Bucket Name"
+  default     = "src--bucket"
+}
 
 variable "dest_bucket_name" {
   type        = string
@@ -22,5 +22,5 @@ variable "dest_bucket_name" {
 variable "acl" {
   type        = string
   description = "ACL value"
-  default         = "private"
+  default     = "private"
 }

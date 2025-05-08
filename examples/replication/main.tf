@@ -45,7 +45,7 @@ resource "random_pet" "src_suffix" {
 
 module "src_bucket" {
   source = "../../"
-  name   = "src-bucket-${random_pet.src_suffix.id}"
+  name   = "${var.src_bucket_name}-${random_pet.src_suffix.id}"
   acl    = var.acl
   tags   = module.tags.tags
 
@@ -68,7 +68,7 @@ module "dest_bucket" {
 module "replication" {
   source             = "../../"
   create_bucket      = false
-  name               = "src-bucket-${random_pet.src_suffix.id}"
+  name               = "${var.src_bucket_name}-${random_pet.src_suffix.id}"
   replication_config = local.replication_config
   tags               = module.tags.tags
 
