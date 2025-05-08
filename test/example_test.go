@@ -53,7 +53,6 @@ func TestAllExampleModulesOutputsNotEmpty(t *testing.T) {
 	}
 }
 
-
 func getExamplesRootDir(t *testing.T) string {
 	if dirExists("../example") {
 		return "../example"
