@@ -43,6 +43,11 @@ resource "random_pet" "src_suffix" {
   separator = "-"
 }
 
+# resource "random_pet" "dest_suffix" {
+#   length    = 2
+#   separator = "-"
+# }
+
 module "src_bucket" {
   source = "../../"
   name   = "${var.src_bucket_name}-${random_pet.src_suffix.id}"

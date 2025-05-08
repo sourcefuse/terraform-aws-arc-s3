@@ -16,7 +16,7 @@ variable "src_bucket_name" {
 variable "dest_bucket_name" {
   type        = string
   description = "Destination Bucket Name"
-  default     = "unique-randome-bucket-05052025"
+  default     = "dest-random-bucket-08-5-2025"
 }
 
 variable "acl" {
