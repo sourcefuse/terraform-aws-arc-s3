@@ -41,16 +41,11 @@ module "tags" {
   }
 }
 
-# Generate random names for source and destination buckets
+# Generate random names for source bucket
 resource "random_pet" "src_suffix" {
   length    = 2
   separator = "-"
 }
-
-# resource "random_pet" "dest_suffix" {
-#   length    = 2
-#   separator = "-"
-# }
 
 module "src_bucket" {
   source = "../../"

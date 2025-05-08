@@ -17,7 +17,6 @@ locals {
           }
         }
 
-
         destinations = [
           {
             bucket        = var.dest_bucket_name
