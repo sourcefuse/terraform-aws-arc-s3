@@ -40,6 +40,7 @@ jobs:
           rm terraform-docs.tar.gz
           chmod +x terraform-docs
           mv terraform-docs /usr/local/bin/terraform-docs
+          terraform --version
       - name: Install tflint
         run: |
           cd /tmp
