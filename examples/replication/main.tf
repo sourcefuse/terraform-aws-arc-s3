@@ -43,11 +43,6 @@ resource "random_pet" "src_suffix" {
   separator = "-"
 }
 
-resource "random_pet" "dest_suffix" {
-  length    = 2
-  separator = "-"
-}
-
 module "src_bucket" {
   source = "../../"
   name   = "src-bucket-${random_pet.src_suffix.id}"
@@ -61,7 +56,7 @@ module "src_bucket" {
 
 module "dest_bucket" {
   source = "../../"
-  name   = "dest-bucket-${random_pet.dest_suffix.id}"
+  name   = var.dest_bucket_name
   acl    = var.acl
   tags   = module.tags.tags
 

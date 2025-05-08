@@ -13,11 +13,11 @@ variable "region" {
 #   default     = "src-randome-bucket-05052025"
 # }
 
-# variable "dest_bucket_name" {
-#   type        = string
-#   description = "Destination Bucket Name"
-#   default     = "unique-randome-bucket-05052025"
-# }
+variable "dest_bucket_name" {
+  type        = string
+  description = "Destination Bucket Name"
+  default     = "unique-randome-bucket-05052025"
+}
 
 variable "acl" {
   type        = string

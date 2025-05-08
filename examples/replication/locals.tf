@@ -20,7 +20,7 @@ locals {
 
         destinations = [
           {
-            bucket        = "dest-bucket-${random_pet.dest_suffix.id}"
+            bucket        = var.dest_bucket_name
             storage_class = "STANDARD"
             encryption_configuration = {
               replica_kms_key_id = null
