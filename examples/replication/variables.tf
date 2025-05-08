@@ -10,7 +10,7 @@ variable "region" {
 variable "src_bucket_name" {
   type        = string
   description = "Source Bucket Name"
-  default     = "src--bucket"
+  default     = "src-bucket"
 }
 
 variable "dest_bucket_name" {

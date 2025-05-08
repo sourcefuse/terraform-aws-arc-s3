@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 4.0, < 6.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
   }
 }
 
@@ -17,7 +21,7 @@ provider "aws" {
 }
 module "tags" {
   source      = "sourcefuse/arc-tags/aws"
-  version     = "1.2.3"
+  version     = "1.2.7"
   environment = "poc"
   project     = "arc"
 
