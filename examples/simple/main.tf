@@ -26,9 +26,15 @@ module "tags" {
   }
 }
 
+# Generate random name suffix
+resource "random_pet" "bucket_suffix" {
+  length    = 2
+  separator = "-"
+}
+
 module "s3" {
   source           = "../../"
-  name             = var.name
+  name             = "my-app-${random_pet.bucket_suffix.id}"
   acl              = var.acl
   # lifecycle_config = local.lifecycle_config
   tags             = module.tags.tags

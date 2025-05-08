@@ -37,9 +37,20 @@ module "tags" {
   }
 }
 
+# Generate random names for source and destination buckets
+resource "random_pet" "src_suffix" {
+  length    = 2
+  separator = "-"
+}
+
+resource "random_pet" "dest_suffix" {
+  length    = 2
+  separator = "-"
+}
+
 module "src_bucket" {
   source = "../../"
-  name   = var.src_bucket_name
+  name   = "src-bucket-${random_pet.src_suffix.id}"
   acl    = var.acl
   tags   = module.tags.tags
 
@@ -50,7 +61,7 @@ module "src_bucket" {
 
 module "dest_bucket" {
   source = "../../"
-  name   = var.dest_bucket_name
+  name   = "dest-bucket-${random_pet.dest_suffix.id}"
   acl    = var.acl
   tags   = module.tags.tags
 
@@ -62,7 +73,7 @@ module "dest_bucket" {
 module "replication" {
   source             = "../../"
   create_bucket      = false
-  name               = var.src_bucket_name
+  name               = "src-bucket-${random_pet.src_suffix.id}"
   replication_config = local.replication_config
   tags               = module.tags.tags
 
