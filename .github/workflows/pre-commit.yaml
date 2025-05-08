@@ -46,7 +46,7 @@ jobs:
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
-        continue-on-error: true  # we want to push the changes pre-commit makes
+        continue-on-error: false  # we want to push the changes pre-commit makes
 
       - name: Push pre-commit changes to branch
         uses: stefanzweifel/git-auto-commit-action@v5
