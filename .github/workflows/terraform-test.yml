@@ -1,6 +1,7 @@
+---
 name: Terraform Terratest with Go
 
-on:
+on:        # yamllint disable-line rule:truthy
   push:
     branches:
       - feature/terraform-test
@@ -42,8 +43,3 @@ jobs:
           go get github.com/stretchr/testify/assert
           go mod tidy
           go test -v -timeout 40m
-
-      # - name: Run Go tests
-      #   run: |
-      #     cd test
-      #     go test -v -timeout 40m
