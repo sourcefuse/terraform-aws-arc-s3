@@ -6,7 +6,6 @@
 
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sourcefuse_terraform-aws-arc-s3&token=3c75a1b94d1b6ab3f1b98785e484d5ede197851e)](https://sonarcloud.io/summary/new_code?id=sourcefuse_terraform-aws-arc-s3)
 
-[![Known Vulnerabilities](https://github.com/sourcefuse/terraform-aws-arc-s3/actions/workflows/snyk.yaml/badge.svg)](https://github.com/sourcefuse/terraform-aws-arc-s3/actions/workflows/snyk.yaml)
 
 ## Overview
 
