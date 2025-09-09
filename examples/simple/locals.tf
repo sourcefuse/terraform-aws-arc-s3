@@ -3,16 +3,15 @@ locals {
     enabled = true
     rules = [
       {
-        id = "rule-1"
+        id     = "rule-1"
+        status = "Enabled"
         expiration = {
-          date = "2024-12-31T00:00:00.000Z"
+          days = 30
         }
         transition = {
-          date          = "2024-12-30T00:00:00.000Z"
           days          = 180
           storage_class = "GLACIER"
         }
-
         noncurrent_version_expiration = {
           newer_noncurrent_versions = 2
           noncurrent_days           = 200
