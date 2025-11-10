@@ -16,3 +16,13 @@ output "role_arn" {
   value       = var.replication_config.enable ? module.replication[0].role_arn : null
   description = "Role used to S3 replication"
 }
+
+output "bucket_domain_name" {
+  value       = var.create_bucket ? module.bucket[0].bucket_domain_name : null
+  description = "Bucket domain Name"
+}
+
+output "bucket_regional_domain_name" {
+  value       = var.create_bucket ? module.bucket[0].bucket_regional_domain_name : null
+  description = "Bucket regional Domain Name"
+}
