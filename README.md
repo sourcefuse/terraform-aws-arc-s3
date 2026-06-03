@@ -31,6 +31,7 @@ Creates S3 buckets with versioning, encryption, lifecycle rules, access logging,
 - CORS configuration
 - Bucket policy management
 - Object lock support
+- Cross-Region Replication (CRR) for automated replication of objects across AWS regions for disaster recovery and compliance requirements
 
 ## Quickstart
 
